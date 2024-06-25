@@ -13,7 +13,10 @@ function App() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (query == '') return;
+    if (query == '') {
+      setResults([]);
+      return;
+    }
     setLoading(true);
     fetchMoviesAPI(query).then(response => response.json()).then((data) => {
       const filteredMovies = filterMovies(data.results, query);
