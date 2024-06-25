@@ -16,7 +16,8 @@ pnpm run dev
 
 ## Set a valid key for the Movie API
 
-Change this value in .env file
+Change this value in .env file (rename .env.example to .env)
+
 VITE_MOVIEAPI_TOKEN = EXAMPLE_KEY
 
 ## Dependencies
