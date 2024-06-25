@@ -14,6 +14,11 @@ pnpm install
 pnpm run dev
 ```
 
+## Set a valid key for the Movie API
+
+Change this value in .env file
+VITE_MOVIEAPI_TOKEN = EXAMPLE_KEY
+
 ## Dependencies
 
 - Tailwindcss
