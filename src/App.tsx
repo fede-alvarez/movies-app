@@ -1,46 +1,47 @@
 import { useEffect, useState } from 'react';
 import { MovieResults } from './components/MovieResults';
 import { Search } from './components/Search';
-
-import './App.css'
-
-const MOVIES_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NzcyNDNiMGJiMDc5OGM2ZTBkZmJlMzE5ODYxOTg2NiIsIm5iZiI6MTcxOTI2MzQxMC40OTk2ODcsInN1YiI6IjY2NzlkNzM4ZTFiZDQ4YzA2OTU2NWY3MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qxpiWN74btwmVFTMGfEknZ16AhFDGMHAzZgUOYvVUwI'
+import { filterMovies } from './utils/utils';
+import { fetchMoviesAPI } from './api/moviesAPI';
+import { Movie } from './types/Movie';
 
 function App() {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+
+  const [results, setResults] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (query == '') return;
-    const moviesApiUrl = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`
     setLoading(true);
-    fetch(moviesApiUrl, {
-      headers: { "Authorization": `Bearer ${MOVIES_API_TOKEN}` }
-    }).then(response => response.json()).then((data) => {
+    fetchMoviesAPI(query).then(response => response.json()).then((data) => {
       const filteredMovies = filterMovies(data.results, query);
       setResults(filteredMovies);
     }).catch(error => {
-      console.error("Current Error", error);
-    }).finally(() => { setLoading(false); });
+      setError(error.message);
+      console.error(error);
+    }).finally(() => setLoading(false));
   }, [query]);
 
-  const handleSearchFilter = (e) => {
+
+  const handleSearchFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   }
 
-  const filterMovies = (items, query) => {
-    return items.filter(item => item.original_title.toLowerCase().includes(query))
-  }
-
   return (
-    <>
-      <h1>Movie apps</h1>
+    <div className="container mx-auto px-8 pt-4">
+      <div className='text-center'>
+        <h1 className="bg-gradient-to-t from-black via-slate-400 to-slate-800 inline-block text-transparent bg-clip-text text-4xl font-bold">Movie Finder</h1>
+      </div>
       <Search query={query} onChange={handleSearchFilter} />
-      <hr />
-      <MovieResults results={results} />
-    </>
+      {error && <div className="text-center rounded-md py-4 mb-2 font-semibold text-red-950 bg-red-400">{error}</div>}
+      {loading && <span className='block w-full text-center py-2 text-2xl animate-pulse transition'>Loading...</span>}
+      <section>
+        {results.length > 0 && <h2 className="text-2xl border-b-2 border-b-gray-200 mb-8">Movies including: <em className='text-slate-500'>{query}</em></h2>}
+        <MovieResults results={results} />
+      </section>
+    </div>
   )
 }
 
