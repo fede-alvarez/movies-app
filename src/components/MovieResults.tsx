@@ -1,12 +1,18 @@
+import { useMovieContext } from "../contexts/MovieContext";
 import { Movie } from "../types/Movie";
 
 const MOVIE_API_IMAGES_PATH = 'https://image.tmdb.org/t/p/original/';
 
-export const MovieResults = ({ results }) => {
+export const MovieResults = () => {
+    const { movies, query, loading, error } = useMovieContext();
+
     return (
-        <>
+        <section id="movie-results">
+            {error && <div className="text-center rounded-md py-4 mb-2 font-semibold text-red-950 bg-red-400">{error}</div>}
+            {loading && <span className='block w-full text-center py-2 text-2xl animate-pulse transition'>Loading...</span>}
+            {movies.length > 0 && <h2 className="text-2xl border-b-2 border-b-gray-200 mb-8">Movies including: <em className='text-slate-500'>{query}</em></h2>}
             <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-10 mb-32">
-                {results.length > 0 && results.map((movie: Movie) => {
+                {movies.length > 0 && movies.map((movie: Movie) => {
                     const movieTitle = (movie.original_title.length > 20) ? movie.original_title.substring(0, 20) + '...' : movie.original_title;
                     const moviePoster = movie.poster_path;
                     const movieReleaseDate = (movie.release_date) ? movie.release_date.split("-")[0] : '???';
@@ -22,8 +28,8 @@ export const MovieResults = ({ results }) => {
                 })}
 
             </div>
-            {results.length == 0 && <div className="flex flex-col w-full text-center"><h3 className="text-xl mb-4">No movie results yet!</h3><p className="italic">Type the name of your movie above to start searching</p></div>}
-        </>
+            {movies.length == 0 && <div className="flex flex-col w-full text-center"><h3 className="text-xl mb-4">No movie results yet!</h3><p className="italic">Type the name of your movie above to start searching</p></div>}
+        </section>
     )
 }
 
