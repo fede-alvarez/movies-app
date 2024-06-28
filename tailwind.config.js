@@ -11,18 +11,30 @@ export default {
       },
 
       animation: {
-        "fade-in-up": "fade-in-up 0.6s ease-in-out",
+        "fade-in-up": "fade-in-up 0.3s ease-in-out",
+        "scale-it": "scale-it 0.4s ease-in-out",
       },
 
       keyframes: {
         "fade-in-up": {
           "0%": {
             opacity: "0",
-            transform: "translateY(20px)",
+            transform: "translateY(10px)",
           },
           "100%": {
             opacity: "1",
             transform: "translateY(0)",
+          },
+        },
+        "scale-it": {
+          "0%": {
+            transform: "scale(1)",
+          },
+          "50%": {
+            transform: "scale(1.8)",
+          },
+          "100%": {
+            transform: "scale(1)",
           },
         },
       },

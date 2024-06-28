@@ -1,18 +1,13 @@
 import { useEffect } from 'react';
+
+import { FavoriteMovies } from './components/FavoriteMovies';
 import { MovieResults } from './components/MovieResults';
 import { Search } from './components/Search';
+import { checkForStorage } from './utils/Storage';
+
+import { Logo } from "./assets/Logo";
 
 import { MovieContextProvider } from "./contexts/MovieContext";
-import { Logo } from "./assets/Logo";
-import { FavoriteMovies } from './components/FavoriteMovies';
-
-const checkForStorage = () => {
-  const storage = localStorage.getItem("moviesLiked");
-
-  if (storage == null || storage == undefined) {
-    localStorage.setItem("moviesLiked", JSON.stringify([]));
-  }
-}
 
 function App() {
   useEffect(() => {
