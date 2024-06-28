@@ -8,6 +8,9 @@ dependencies:
   '@mui/icons-material':
     specifier: ^5.15.21
     version: 5.15.21(@mui/material@5.15.21)(@types/react@18.3.3)(react@18.3.1)
+  '@mui/material':
+    specifier: ^5.15.21
+    version: 5.15.21(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
   react:
     specifier: ^18.3.1
     version: 18.3.1
