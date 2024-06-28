@@ -1,17 +1,38 @@
+import { useEffect } from 'react';
 import { MovieResults } from './components/MovieResults';
 import { Search } from './components/Search';
 
 import { MovieContextProvider } from "./contexts/MovieContext";
+import { Logo } from "./assets/Logo";
+import { FavoriteMovies } from './components/FavoriteMovies';
+
+const checkForStorage = () => {
+  const storage = localStorage.getItem("moviesLiked");
+
+  if (storage == null || storage == undefined) {
+    localStorage.setItem("moviesLiked", JSON.stringify([]));
+  }
+}
 
 function App() {
+  useEffect(() => {
+    checkForStorage();
+  }, []);
+
   return (
     <MovieContextProvider>
-      <main className="container mx-auto px-8 pt-4">
-        <div className='text-center'>
-          <h1 className="bg-gradient-to-t from-black via-slate-400 to-slate-800 inline-block text-transparent bg-clip-text text-4xl font-bold">Movie Finder</h1>
+      <main className="w-full h-screen px-8 pt-4 relative">
+        <div className="absolute z-0 top-0 left-0 w-full bg-[url('assets/movies-tiles.webp')] bg-cover opacity-10 mix-blend-overlay min-h-28 lg:min-h-44">&nbsp;</div>
+        <div className='container z-10 mx-auto px-8 max-w-8xl text-[#F3F3F3]'>
+          <div className='text-center my-4 lg:my-8'>
+            <h1 className="inline-block"><Logo /></h1>
+          </div>
+          <Search />
+          <section id="movie-results">
+            <MovieResults />
+          </section>
         </div>
-        <Search />
-        <MovieResults />
+        <FavoriteMovies />
       </main>
     </MovieContextProvider>
   )

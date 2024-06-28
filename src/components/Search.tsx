@@ -1,3 +1,4 @@
+import { SearchRounded } from "@mui/icons-material";
 import { useMovieContext } from "../contexts/MovieContext";
 
 export const Search = () => {
@@ -8,6 +9,9 @@ export const Search = () => {
     }
 
     return (
-        <input className="px-4 py-4 my-4 text-xl w-full rounded-full shadow-lg shadow-slate-100 outline-none" type="search" value={query} onChange={handleSearchFilter} required placeholder='Enter a movie title' />
+        <div className="relative my-4">
+            <SearchRounded className="absolute left-4 top-1/2 -translate-y-3" />
+            <input className="px-12 py-4 text-xl w-full bg-[#274a75] rounded-full outline-none" type="search" value={query} onChange={handleSearchFilter} required placeholder='Enter a movie title' />
+        </div>
     )
 }
