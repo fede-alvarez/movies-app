@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import { CloseRounded, CollectionsBookmark, DeleteForever } from "@mui/icons-material"
+import { CloseRounded, CollectionsBookmark, DeleteForever } from "@mui/icons-material";
 import { getLikedMovies, resetStorage } from "../utils/Storage";
 
 const DELAYED_CLOSE_TIME = 8000;
 
-let delayCloseTimer = null;
+let delayCloseTimer: ReturnType<typeof setTimeout> = null;
 
 export const FavoriteMovies = () => {
     const [movies, setMovies] = useState([]);
     const [toggleList, setToggleList] = useState(false);
 
     useEffect(() => {
-        //console.log(getLikedMovies())
         setMovies(getLikedMovies());
     }, []);
 

@@ -1,5 +1,11 @@
 import { Movie } from "../types/Movie";
 
+interface MovieStorage {
+    id: number;
+    poster: string;
+    title: string;
+}
+
 const MOVIES_LIKES_KEY = "moviesLiked";
 
 export const checkForStorage = () => {
@@ -8,18 +14,18 @@ export const checkForStorage = () => {
     if (storage == null || storage == undefined) {
         localStorage.setItem(MOVIES_LIKES_KEY, JSON.stringify([]));
     }
-}
+};
 
 export const checkMovieLike = (movieId: number) => {
     const likedMovies = getItems();
-    return likedMovies.findIndex((value) => value.id == movieId) !== -1;
-}
+    return likedMovies.findIndex((value: MovieStorage) => value.id == movieId) !== -1;
+};
 
 export const saveStorage = (movie: Movie, liked: boolean) => {
     let likedMovies = getItems();
     console.log(movie)
     if (!liked) {
-        const isNewValue = likedMovies.findIndex((value) => value.id == movie.id) === -1;
+        const isNewValue = likedMovies.findIndex((value: MovieStorage) => value.id == movie.id) === -1;
 
         if (isNewValue) {
             likedMovies.push({ id: movie.id, poster: movie.poster_path, title: movie.title });
@@ -29,9 +35,9 @@ export const saveStorage = (movie: Movie, liked: boolean) => {
         return;
     }
 
-    likedMovies = likedMovies.filter((item) => item.id !== movie.id);
+    likedMovies = likedMovies.filter((item: MovieStorage) => item.id !== movie.id);
     saveItems(likedMovies);
-}
+};
 
 export const resetStorage = () => {
     localStorage.setItem(MOVIES_LIKES_KEY, JSON.stringify([]));
@@ -39,10 +45,10 @@ export const resetStorage = () => {
 
 export const getLikedMovies = () => { return getItems(); }
 
-const saveItems = (items) => {
+const saveItems = (items: MovieStorage[]) => {
     localStorage.setItem(MOVIES_LIKES_KEY, JSON.stringify(items));
 };
 
 const getItems = () => {
-    return JSON.parse(localStorage.getItem(MOVIES_LIKES_KEY));
+    return JSON.parse(localStorage.getItem(MOVIES_LIKES_KEY) || '""');
 };
