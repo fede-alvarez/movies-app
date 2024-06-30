@@ -6,7 +6,7 @@ const MAX_TITLE_CHARS: number = 15;
 
 interface MovieItemProps {
     movie: Movie;
-    key: string;
+    key: number;
 }
 
 export const MovieItem = ({ movie, key }: MovieItemProps) => {
